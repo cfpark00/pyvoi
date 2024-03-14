@@ -14,4 +14,8 @@ setuptools.setup(
     long_description_content_type='text/markdown',
     license='MIT',
     install_requires=["numpy","torch"],
+    project_urls={
+        "Source": "https://github.com/cfpark00/pyvoi.git"
+    },
+
 )
