@@ -1,6 +1,7 @@
 import numpy as np
 import torch
 import numpy.typing as npt
+import warnings
 
 
 def VI(labels1: npt.NDArray[np.int32],labels2: npt.NDArray[np.int32],torch: bool=True,device: str="cpu",return_split_merge: bool=False):
@@ -21,6 +22,11 @@ def VI(labels1: npt.NDArray[np.int32],labels2: npt.NDArray[np.int32],torch: bool
     splitters(optional): labels of labels2 which are split by labels1. splitters[i,0] is the contribution of the i-th splitter to the VI and splitters[i,1] is the corresponding label of the splitter
     mergers(optional): labels of labels1 which are merging labels from labels2. mergers[i,0] is the contribution of the i-th merger to the VI and mergers[i,1] is the corresponding label of the merger
     """
+    if labels1.ndim > 1 or labels2.ndim > 1:
+        warnings.warn(f"Inputs of shape {labels1.shape}, {labels2.shape} are not one-dimensional -- inputs will be flattened.")
+        labels1 = labels1.flatten()
+        labels2 = labels2.flatten()
+        
     if torch:
         return VI_torch(labels1,labels2,device=device,return_split_merge=return_split_merge)
     else:
